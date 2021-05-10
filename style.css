@@ -1,0 +1,68 @@
+* {
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 10px 0;
+}
+
+.title-search-bar {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
+}
+
+.btn {
+    background-color: rgb(243, 240, 240);
+    padding: 5px;
+    border-radius: 5px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.user-search {
+    height: 20px;
+    border: 1px solid gray;
+    border-radius: 2px;
+}
+
+.searchBtn {
+    background-color: rgb(14, 165, 14);
+    color: honeydew;
+    border: none;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.trends {
+    background-color: rgb(221, 49, 30);
+    color: honeydew;
+    border: none;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.results {
+    padding-top: 30px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.img {
+    height: 200px;
+    width: 100px;
+}
