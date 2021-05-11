@@ -43,7 +43,10 @@ function renderGips(data, place) {
     let html = '';
   
     html = `
-        <img src="${data.images.downsized.url}" alt="${data.title}" class="img">
+        <div class="gif-box">
+            <img src="${data.images.downsized.url}" alt="${data.title}" class="img">
+            <h6>Rating: g</h6>
+        </div>
     `;
   
     document.querySelector('.results').insertAdjacentHTML(place, html);
