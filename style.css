@@ -87,6 +87,17 @@ h1 {
     justify-content: flex-start;
 }
 
+.img {
+    height: 90%;
+    width: 100%;
+}
+
+h6 {
+    height: 10%;
+    font-size: 17px;
+    padding: 1px;
+    font-weight: bold;
+}
 
 @media (max-width: 1024px) {
     .gif-box {
@@ -100,14 +111,3 @@ h1 {
     }
 }
 
-.img {
-    height: 90%;
-    width: 100%;
-}
-
-h6 {
-    height: 10%;
-    font-size: 18px;
-    padding: 1px;
-    font-weight: bold;
-}

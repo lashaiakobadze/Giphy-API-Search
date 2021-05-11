@@ -1,62 +1,28 @@
-/// CONSTANTS  
-let topics = ["Internet Cats", "Meme's", "Typing", "Space", "Rick and Morty"];
+class Config {
+    // Default parameters
+    topics = ["Internet Cats", "Meme's", "Typing", "Space", "Rick and Morty"];
 
-const trendUrl = 'https://api.giphy.com/v1/gifs/trending?';
-const appUrl = "https://api.giphy.com/v1/gifs/search?";
+    URL = {
+        trendUrl: 'https://api.giphy.com/v1/gifs/trending?',
+        appUrl: "https://api.giphy.com/v1/gifs/search?",    
+    
+        limit: 10,
+        api_key: "aFFKTuSMjd6j0wwjpFCPXZipQbcnw3vB",
+    }
 
-let params = {
-  limit: 10,
-  api_key: "aFFKTuSMjd6j0wwjpFCPXZipQbcnw3vB",
-};
 
+    get getUrl() {
+        return this.URL;
+    }
 
-/// FETCHES
-function fetchGips(url, query) {
-    let Url = `${url}api_key=${params.api_key}&limit=${params.limit}&q=${query}`;
-    fetch(Url)
-    .then(response => response.json())
-    .then(content => {
-        document.querySelector('.results').innerHTML = '';
-        content.data.forEach(data => {
-        renderGips(data, 'beforeend');
-      })
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    get getTopics() {
+        return this.topics;
+    }
+
+    set setTopics(topics) {
+        this.topics = topics;
+    }
 }
-
-
-/// RENDERS 
-function renderBtn(data, place) {
-    let html = '';  
-
-    html = `
-        <div class="btn" value="${data}">${data}</div>
-    `;
-
-    document.querySelector('.buttons').insertAdjacentHTML(place, html);
-};
-
-
-function renderGips(data, place) {
-    let html = '';
-  
-    html = `
-        <div class="gif-box">
-            <img src="${data.images.downsized.url}" alt="${data.title}" class="img">
-            <h6>Rating: g</h6>
-        </div>
-    `;
-  
-    document.querySelector('.results').insertAdjacentHTML(place, html);
-};
-
-
-// DEFAULT BUTTONS RENDER
-topics.forEach(btn => {
-    renderBtn(btn, 'beforeend');
-});
 
 
 // SELECTORS
@@ -66,37 +32,110 @@ const searchInput = document.querySelector('.user-search');
 const searchBtn = document.querySelector('.searchBtn');
 
 
-// Fetch input value add buttons navbar and search gips
-searchBtn.addEventListener('click', () => {
-    const searchValue = searchInput.value.trim();
-    if(searchValue.length !== 0) {
-        topics.shift();
-        topics.push(searchValue);
-        document.querySelector('.buttons').innerHTML = '';
-        topics.forEach(btn => {
-            renderBtn(btn, 'beforeend');
-        });
-        fetchGips(appUrl, searchValue);
-        searchedBtn = document.querySelectorAll('.btn');
-        console.log(searchedBtn);
-        load();
+class Catalog extends Config {    
+    // Default buttons render
+    renderBtns() {
+        super.getTopics.forEach(btn => {
+            this.renderBtn(btn, 'beforeend');
+        })
     }
-});
 
 
-// Searched gips another search
-function  load(){
-    searchedBtn.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            console.log(e.target.innerHTML); 
-            fetchGips(appUrl, e.target.innerHTML);       
+    // Fetch list from url
+    fetchList(url, query) {
+        const Url = `${url}api_key=${super.getUrl.api_key}&limit=${super.getUrl.limit}&q=${query}`;
+        fetch(Url)
+        .then(response => response.json())
+        .then(content => {
+                document.querySelector('.results').innerHTML = '';
+                content.data.forEach(data => {
+                this.renderList(data, 'beforeend');
+            })
+        })
+        .catch(err => {
+            console.error(err);
         });
-    }) 
+    };
+
+
+    // Default buttons render
+    renderBtn(data, place) {
+        let html = '';  
+
+        html = `
+            <div class="btn" value="${data}">${data}</div>
+        `;
+
+        document.querySelector('.buttons').insertAdjacentHTML(place, html);
+    };
+
+
+    // Render gifs list
+    renderList(data, place) {
+        let html = '';
+      
+        html = `
+            <div class="gif-box">
+                <img src="${data.images.downsized.url}" alt="${data.title}" class="img">
+                <h6>Rating: g</h6>
+            </div>
+        `;
+      
+        document.querySelector('.results').insertAdjacentHTML(place, html);
+    };
+
+
+    // Fetch input value add buttons on navbar and search gifs
+    fetchValue() {
+        searchBtn.addEventListener('click', () => {
+            const searchValue = searchInput.value.trim();
+            if(searchValue.length !== 0) {
+                searchInput.value = '';
+                const topics = super.getTopics;
+                topics.shift();
+                topics.push(searchValue);
+                document.querySelector('.buttons').innerHTML = '';
+                super.setTopics = topics;
+                super.getTopics.forEach(btn => {
+                    this.renderBtn(btn, 'beforeend');
+                });
+                this.fetchList(super.getUrl.appUrl, searchValue);
+                searchedBtn = document.querySelectorAll('.btn');
+                this.load();
+            }
+        });
+    }
+
+
+    // Searched gif another search super.getUrl.appUrl
+    load(){
+        searchedBtn = document.querySelectorAll('.btn');
+        searchedBtn.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                var searchQuery = e.target.innerHTML.trim();
+                this.fetchList(super.getUrl.appUrl, searchQuery);
+            });
+        }) 
+    };
+
+
+    // Render trend gifs
+    loadTrends() {
+        trendsBtn.addEventListener('click', () => {
+            this.fetchList(super.getUrl.trendUrl, '');
+        })
+    }
+
+
+    renderAll() {
+        this.fetchValue();
+        this.load();
+        this.loadTrends();
+    }
 }
-load();
 
-// Render trend gips
-trendsBtn.addEventListener('click', () => {
-    fetchGips(trendUrl, '');
-})
 
+
+const catalog = new Catalog();
+catalog.renderBtns();
+catalog.renderAll();
